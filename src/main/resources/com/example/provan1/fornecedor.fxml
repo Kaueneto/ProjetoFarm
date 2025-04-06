@@ -41,15 +41,15 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="700.0">
                <children>
-                  <TableView prefHeight="200.0" prefWidth="750.0">
+                  <TableView fx:id="tableFornecedores" prefHeight="200.0" prefWidth="750.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="ID" />
-                      <TableColumn prefWidth="75.0" text="CNPJ" />
-                        <TableColumn prefWidth="75.0" text="Razao social" />
-                        <TableColumn prefWidth="75.0" text="Telefone" />
-                        <TableColumn prefWidth="75.0" text="email" />
-                        <TableColumn prefWidth="75.0" text="Cidade" />
-                        <TableColumn prefWidth="75.0" text="Estado" />
+                      <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
+                      <TableColumn fx:id="colCnpj" prefWidth="75.0" text="CNPJ" />
+                        <TableColumn fx:id="colRazaoSocial" prefWidth="75.0" text="Razao social" />
+                        <TableColumn fx:id="colTelefone" prefWidth="75.0" text="Telefone" />
+                        <TableColumn fx:id="colEmail" prefWidth="75.0" text="email" />
+                        <TableColumn fx:id="colCidade" prefWidth="75.0" text="Cidade" />
+                        <TableColumn fx:id="colEstado" prefWidth="75.0" text="Estado" />
                     </columns>
                   </TableView>
                </children>

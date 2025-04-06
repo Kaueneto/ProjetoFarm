@@ -27,7 +27,9 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Relatórios">
             <items>
-              <MenuItem mnemonicParsing="false" text="teste 1" />
+              <MenuItem fx:id="menuRelatorioControlados" mnemonicParsing="false" onAction="#abrirRelatorioControlados" text="Relatorio de medicamentos controlados" />
+                  <MenuItem fx:id="menuRelatorioEstoqueBaixo" mnemonicParsing="false" onAction="#abrirRelatorioEstoqueBaixo" text="Relatorio de medicamentos com estoque baixo" />
+                  <MenuItem fx:id="menuRelatorioVencimentoProximo" mnemonicParsing="false" onAction="#abrirRelatorioVencendo30Dias" text="Relatorio de medicamentos com vencimento proximo (30dias)" />
             </items>
           </Menu>
         </menus>
@@ -36,21 +38,22 @@
          <children>
             <Label layoutX="14.0" layoutY="14.0" text="Código medicamento" />
             <TextField fx:id="txtPesquisaCodigo" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="139.0" />
-            <Button layoutX="156.0" layoutY="31.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Pesquisar" />
+            <Button fx:id="pesquisarmed" layoutX="156.0" layoutY="31.0" mnemonicParsing="false" onAction="#pesquisarMedicamentos" prefHeight="25.0" prefWidth="80.0" text="Pesquisar" />
             <TableView fx:id="tableMedicamentos" layoutX="14.0" layoutY="74.0" prefHeight="228.0" prefWidth="735.0" style="-fx-background-color: #F0F8FF;">
               <columns>
-                <TableColumn prefWidth="58.0" text="Codigo" />
-                <TableColumn prefWidth="92.0" text="Nome" />
-                  <TableColumn prefWidth="93.0" text="Descricao" />
-                  <TableColumn text="PrincipioAtivo" />
-                  <TableColumn prefWidth="52.0" text="Validade" />
-                  <TableColumn prefWidth="75.0" text="Estoque" />
-                  <TableColumn prefWidth="96.0" text="Preco" />
-                  <TableColumn prefWidth="69.0" text="Controlado" />
-                  <TableColumn prefWidth="119.0" text="Fornecedor" />
+                <TableColumn fx:id="colCodigo" prefWidth="58.0" text="Codigo" />
+                <TableColumn fx:id="colNome" prefWidth="92.0" text="Nome" />
+                  <TableColumn fx:id="colDescricao" prefWidth="93.0" text="Descricao" />
+                  <TableColumn fx:id="colPrincipio" text="PrincipioAtivo" />
+                  <TableColumn fx:id="colValidade" prefWidth="52.0" text="Validade" />
+                  <TableColumn fx:id="colEstoque" prefWidth="75.0" text="Estoque" />
+                  <TableColumn fx:id="colPreco" prefWidth="96.0" text="Preco" />
+                  <TableColumn fx:id="colControlado" minWidth="0.0" prefWidth="34.0" text="Controlado" />
+                  <TableColumn fx:id="colCnpj" prefWidth="46.0" text="cnpj" />
+                  <TableColumn fx:id="colFornecedor" prefWidth="227.0" text="Razao social " />
               </columns>
             </TableView>
-            <Button fx:id="btnExcluirSelecionado" layoutX="14.0" layoutY="311.0" mnemonicParsing="false" onAction="#excluirSelecionado" prefHeight="25.0" prefWidth="125.0" text="Excluir Selecionado" />
+            <Button fx:id="btnExcluirSelecionado" layoutX="14.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Excluir Selecionado" />
          </children>
       </Pane>
    </children>

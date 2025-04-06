@@ -36,7 +36,7 @@ public class MedicamentoController implements Initializable {
     @FXML
     private ChoiceBox<String> choicefornecedor;
     @FXML
-    private TextField txtCodForn; // novo campo para inserir o ID do fornecedor     e buscar
+    private TextField txtCodForn;
 
     private final FornecedorDAO fornecedorDAO = new FornecedorDAO();
     private final MedicamentoDAO medicamentoDAO = new MedicamentoDAO(fornecedorDAO);
@@ -54,6 +54,7 @@ public class MedicamentoController implements Initializable {
 
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 9999, 0);
         SpinerQtdeEstoque.setValueFactory(valueFactory);
+        SpinerQtdeEstoque.setEditable(true);
     }
 
     @FXML
@@ -83,7 +84,12 @@ public class MedicamentoController implements Initializable {
             medicamentoDAO.adicionar(novoMedicamento);
             medicamentoDAO.salvarMedicamentos();
 
-            System.out.println("Medicamento cadastrado com sucesso!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sucesso");
+            alert.setHeaderText(null);
+            alert.setContentText("Medicamento cadastrado com sucesso!");
+            alert.showAndWait();
+
             limparCampos();
 
         } catch (Exception e) {
@@ -99,6 +105,7 @@ public class MedicamentoController implements Initializable {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+
     @FXML
     private void verificarFornecedorPorId() {
         String texto = txtCodForn.getText().trim();
@@ -113,7 +120,6 @@ public class MedicamentoController implements Initializable {
                         choicefornecedor.getItems().setAll(fornecedor.getRazaoSocial());
                         choicefornecedor.setValue(fornecedor.getRazaoSocial());
                     }, () -> {
-                        //choicefornecedor.getItems().setAll("");
                         choicefornecedor.setValue("Fornecedor não encontrado");
                     });
         } else {

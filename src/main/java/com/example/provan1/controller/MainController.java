@@ -2,6 +2,8 @@ package com.example.provan1.controller;
 
 import com.example.provan1.model.Fornecedor;
 import com.example.provan1.model.Medicamento;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,25 +24,55 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
     @FXML
-    private MenuItem menuitemCadastrarMed;
+    private TableColumn<Medicamento, String> colCodigo;
+    @FXML
+    private TableColumn<Medicamento, String> colNome;
+    @FXML
+    private TableColumn<Medicamento, String> colDescricao;
+    @FXML
+    private TableColumn<Medicamento, String> colPrincipio;
+    @FXML
+    private TableColumn<Medicamento, String> colValidade;
+    @FXML
+    private TableColumn<Medicamento, Integer> colEstoque;
+    @FXML
+    private TableColumn<Medicamento, String> colPreco;
+    @FXML
+    private TableColumn<Medicamento, String> colControlado;
+    @FXML
+    private TableColumn<Medicamento, String> colFornecedor;
+    @FXML
+    private TableColumn<Medicamento, String> colCnpj;
 
+    @FXML
+    private MenuItem menuitemCadastrarMed;
     @FXML
     private MenuItem menuItemCadastrarforn;
-
     @FXML
     private TableView<Medicamento> tableMedicamentos;
-
     @FXML
     private TextField txtPesquisaCodigo;
-
     @FXML
     private Button btnExcluirSelecionado;
+    @FXML
+    private Button pesquisarmed;
 
     private ObservableList<Medicamento> listaMedicamentos = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        configurarTabela();
+        colCodigo.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getCodigo()));
+        colNome.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getNome()));
+        colDescricao.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDescricao()));
+        colPrincipio.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPrincipioAtivo()));
+        colValidade.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getDataValidade().toString()));
+        colEstoque.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getQuantidadeEstoque()).asObject());
+        colPreco.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getPreco().toString()));
+        colControlado.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().isControlado() ? "Sim" : "Não"));
+        colFornecedor.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getFornecedor().getRazaoSocial()));
+        colCnpj.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getFornecedor().getCnpj()));
+
+        tableMedicamentos.setItems(listaMedicamentos);
         carregarDadosDoCSV();
 
         btnExcluirSelecionado.setOnAction(e -> excluirSelecionado());
@@ -76,14 +108,10 @@ public class MainController implements Initializable {
         }
     }
 
-    private void configurarTabela() {
-        tableMedicamentos.setItems(listaMedicamentos);
-    }
-
     private void carregarDadosDoCSV() {
         listaMedicamentos.clear();
 
-        String caminho = Paths.get(System.getProperty("user.dir"), "datacsv", "medicamentos.csv").toString();
+        String caminho = Paths.get("src", "main", "java", "com", "example", "provan1", "datacsv", "medicamentos.csv").toString();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(caminho))) {
             String linha;
@@ -96,15 +124,15 @@ public class MainController implements Initializable {
                 Fornecedor fornecedor = new Fornecedor(partes[9], partes[8]);
 
                 Medicamento m = new Medicamento(
-                        partes[0], // código
-                        partes[1], // nome
-                        partes[2], // descrição
-                        partes[3], // princípio ativo
-                        LocalDate.parse(partes[4]), // validade
-                        Integer.parseInt(partes[5]), // estoque
-                        new BigDecimal(partes[6]), // preço
-                        Boolean.parseBoolean(partes[7]), // controlado
-                        fornecedor // ← agora passando um Fornecedor mesmo
+                        partes[0],
+                        partes[1],
+                        partes[2],
+                        partes[3],
+                        LocalDate.parse(partes[4]),
+                        Integer.parseInt(partes[5]),
+                        new BigDecimal(partes[6]),
+                        Boolean.parseBoolean(partes[7]),
+                        fornecedor
                 );
 
                 listaMedicamentos.add(m);
@@ -120,7 +148,7 @@ public class MainController implements Initializable {
         String codigoBusca = txtPesquisaCodigo.getText().trim();
 
         if (codigoBusca.isEmpty()) {
-            carregarDadosDoCSV(); // Mostra todos
+            carregarDadosDoCSV();
         } else {
             ObservableList<Medicamento> filtrados = FXCollections.observableArrayList();
             for (Medicamento m : listaMedicamentos) {
@@ -134,14 +162,27 @@ public class MainController implements Initializable {
 
     private void excluirSelecionado() {
         Medicamento selecionado = tableMedicamentos.getSelectionModel().getSelectedItem();
+
         if (selecionado != null) {
             listaMedicamentos.remove(selecionado);
             salvarListaNoCSV();
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Sucesso");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Medicamento excluído com sucesso!");
+            alerta.showAndWait();
+        } else {
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("Nenhuma seleção");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Selecione um medicamento para excluir.");
+            alerta.showAndWait();
         }
     }
 
     private void salvarListaNoCSV() {
-        String caminho = Paths.get(System.getProperty("user.dir"), "datacsv", "medicamentos.csv").toString();
+        String caminho = Paths.get("src", "main", "java", "com", "example", "provan1", "datacsv", "medicamentos.csv").toString();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminho))) {
             for (Medicamento m : listaMedicamentos) {
@@ -154,6 +195,7 @@ public class MainController implements Initializable {
                         String.valueOf(m.getQuantidadeEstoque()),
                         m.getPreco().toString(),
                         String.valueOf(m.isControlado()),
+                        m.getFornecedor().getRazaoSocial(),
                         m.getFornecedor().getCnpj()
                 ));
                 writer.newLine();
@@ -163,5 +205,36 @@ public class MainController implements Initializable {
             System.out.println("Erro ao salvar medicamentos no arquivo CSV.");
         }
     }
+
+    @FXML
+    private void abrirRelatorioControlados() {
+        abrirRelatorioComFiltro("controlado");
+    }
+
+    @FXML
+    private void abrirRelatorioEstoqueBaixo() {
+        abrirRelatorioComFiltro("estoque_baixo");
+    }
+    @FXML
+    private void abrirRelatorioVencendo30Dias() {
+        abrirRelatorioComFiltro("vencendo_30_dias");
+    }
+    private void abrirRelatorioComFiltro(String tipoRelatorio) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/provan1/Relatorio.fxml"));
+            Parent root = loader.load();
+
+            RelatorioController controller = loader.getController();
+            controller.carregarDadosFiltrados(tipoRelatorio);
+
+            Stage stage = new Stage();
+            stage.setTitle("Relatório - " + tipoRelatorio);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
-//teste

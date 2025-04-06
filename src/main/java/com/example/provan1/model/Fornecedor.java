@@ -21,7 +21,18 @@ public class Fornecedor {
         this.cidade = cidade;
         this.estado = estado;
     }
-
+    public Fornecedor(String razaoSocial, String cnpj) {
+        this.id = 0L;
+        if (!cnpjValido(cnpj)) {
+            throw new IllegalArgumentException("CNPJ inválido");
+        }
+        this.razaoSocial = razaoSocial;
+        this.cnpj = cnpj;
+        this.telefone = "";
+        this.email = "";
+        this.cidade = "";
+        this.estado = "";
+    }
     public String getCnpj() {
         return cnpj;
     }
