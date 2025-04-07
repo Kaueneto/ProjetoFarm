@@ -14,13 +14,33 @@ import java.util.List;
 
 public class RelatorioController {
 
-    @FXML private TableView<Medicamento> tableRelatorio;
-    @FXML private TableColumn<Medicamento, String> colCodigo;
-    @FXML private TableColumn<Medicamento, String> colNome;
-    @FXML private TableColumn<Medicamento, String> colDescricao;
-    @FXML private TableColumn<Medicamento, String> colValidade;
-    @FXML private TableColumn<Medicamento, Integer> colEstoque;
-    @FXML private TableColumn<Medicamento, String> colControlado;
+    @FXML
+    private TableView<Medicamento> tableRelatorio;
+    @FXML
+    private TableColumn<Medicamento, String> colCodigo;
+    @FXML
+    private TableColumn<Medicamento, String> colNome;
+    @FXML
+    private TableColumn<Medicamento, String> colDescricao;
+    @FXML
+    private TableColumn<Medicamento, String> colValidade;
+    @FXML
+    private TableColumn<Medicamento, Integer> colEstoque;
+    @FXML
+    private TableColumn<Medicamento, String> colControlado;
+    @FXML
+    private TableColumn<Medicamento, String> colPrincipio;
+    @FXML
+    private TableColumn<Medicamento, String> colPreco;
+    @FXML
+    private TableColumn<Medicamento, String> colCnpj;
+    @FXML
+    private TableColumn<Medicamento, String> colFornecedor;
+
+
+
+
+
 
     private final RelatorioDAO relatorioDAO = new RelatorioDAO();
 
@@ -31,6 +51,7 @@ public class RelatorioController {
             case "vencendo_30_dias" -> relatorioDAO.listarVencendoProximos30Dias();
 
             default -> List.of();
+
         };
 
         ObservableList<Medicamento> observableList = FXCollections.observableArrayList(dados);
@@ -47,5 +68,10 @@ public class RelatorioController {
         colValidade.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDataValidade().toString()));
         colEstoque.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getQuantidadeEstoque()).asObject());
         colControlado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().isControlado() ? "Sim" : "Não"));
+        colPrincipio.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPrincipioAtivo()));
+        colPreco.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPreco().toString()));
+        colCnpj.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFornecedor().getCnpj()));
+        colFornecedor.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFornecedor().getCnpj()));
+
     }
 }

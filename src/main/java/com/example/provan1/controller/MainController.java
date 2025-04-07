@@ -148,7 +148,8 @@ public class MainController implements Initializable {
         String codigoBusca = txtPesquisaCodigo.getText().trim();
 
         if (codigoBusca.isEmpty()) {
-            carregarDadosDoCSV();
+            carregarDadosDoCSV(); // Recarrega toda a lista
+            tableMedicamentos.setItems(listaMedicamentos); // Atualiza a tabela com todos os medicamentos
         } else {
             ObservableList<Medicamento> filtrados = FXCollections.observableArrayList();
             for (Medicamento m : listaMedicamentos) {

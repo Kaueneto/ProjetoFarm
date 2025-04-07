@@ -15,13 +15,13 @@
                         <TableColumn fx:id="colCodigo" prefWidth="58.0" text="Codigo" />
                         <TableColumn fx:id="colNome" prefWidth="92.0" text="Nome" />
                         <TableColumn fx:id="colDescricao" prefWidth="93.0" text="Descricao" />
-                        <TableColumn fx:id="colPrincipio" text="PrincipioAtivo" />
-                        <TableColumn fx:id="colValidade" prefWidth="52.0" text="Validade" />
+                        <TableColumn fx:id="colPrincipio" prefWidth="110.0" text="PrincipioAtivo" />
+                        <TableColumn fx:id="colValidade" prefWidth="84.0" text="Validade" />
                         <TableColumn fx:id="colEstoque" prefWidth="75.0" text="Estoque" />
                         <TableColumn fx:id="colPreco" prefWidth="96.0" text="Preco" />
-                        <TableColumn fx:id="colControlado" minWidth="0.0" prefWidth="34.0" text="Controlado" />
-                        <TableColumn fx:id="colCnpj" prefWidth="46.0" text="cnpj" />
-                        <TableColumn fx:id="colFornecedor" prefWidth="227.0" text="Razao social " />
+                        <TableColumn fx:id="colControlado" minWidth="0.0" prefWidth="75.0" text="Controlado" />
+                        <TableColumn fx:id="colCnpj" prefWidth="130.0" text="cnpj" />
+                        <TableColumn fx:id="colFornecedor" prefWidth="150.0" text="Razao social " />
                     </columns>
                 </TableView>
             </children>
