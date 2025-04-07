@@ -38,6 +38,7 @@ public class MedicamentoDAO {
     }
 
     public List<Medicamento> listarTodos() {
+        this.medicamentos = carregarMedicamentos();
         return medicamentos;
     }
 
@@ -47,7 +48,7 @@ public class MedicamentoDAO {
 
         for (String[] linha : dados) {
             try {
-                String cnpj = linha[8];
+                String cnpj = linha[9];
                 Optional<Fornecedor> f = fornecedorDAO.buscarPorCNPJ(cnpj);
 
                 if (f.isPresent()) {
@@ -75,8 +76,9 @@ public class MedicamentoDAO {
                     m.getCodigo(), m.getNome(), m.getDescricao(), m.getPrincipioAtivo(),
                     m.getDataValidade().toString(), String.valueOf(m.getQuantidadeEstoque()),
                     m.getPreco().toString(), String.valueOf(m.isControlado()),
+                    m.getFornecedor().getRazaoSocial(),
                     m.getFornecedor().getCnpj(),
-                    m.getFornecedor().getRazaoSocial()
+
             });
         }
 
@@ -138,8 +140,9 @@ public class MedicamentoDAO {
                         String.valueOf(m.getQuantidadeEstoque()),
                         m.getPreco().toString(),
                         String.valueOf(m.isControlado()),
-                        m.getFornecedor().getCnpj(),
-                        m.getFornecedor().getRazaoSocial()
+                        m.getFornecedor().getRazaoSocial(),
+                        m.getFornecedor().getCnpj()
+
                 })
                 .collect(Collectors.toList());
 

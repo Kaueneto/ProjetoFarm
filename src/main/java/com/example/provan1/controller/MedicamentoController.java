@@ -7,6 +7,7 @@ import com.example.provan1.model.Medicamento;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -37,6 +38,8 @@ public class MedicamentoController implements Initializable {
     private ChoiceBox<String> choicefornecedor;
     @FXML
     private TextField txtCodForn;
+    @FXML
+    private Button btnfechar;
 
     private final FornecedorDAO fornecedorDAO = new FornecedorDAO();
     private final MedicamentoDAO medicamentoDAO = new MedicamentoDAO(fornecedorDAO);
@@ -76,6 +79,7 @@ public class MedicamentoController implements Initializable {
 
             Fornecedor fornecedor = fornecedorDAO.buscarPorRazaoSocial(nomeFornecedor)
                     .orElseThrow(() -> new RuntimeException("Fornecedor não encontrado"));
+
 
             Medicamento novoMedicamento = new Medicamento(
                     codigo, nome, descricao, principioAtivo, validade, quantidade, preco, controlado, fornecedor
@@ -137,6 +141,11 @@ public class MedicamentoController implements Initializable {
         checkControlado.setSelected(false);
         txtCodForn.clear();
         choicefornecedor.setValue(null);
+    }
+    @FXML
+    private void fecharjan() {
+        Stage stage = (Stage) btnfechar.getScene().getWindow();
+        stage.close();
     }
 
     public Button getBtnCadastrar() {

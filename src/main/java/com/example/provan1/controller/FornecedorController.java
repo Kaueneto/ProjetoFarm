@@ -1,5 +1,6 @@
 package com.example.provan1.controller;
 
+import com.example.provan1.model.Medicamento;
 import com.example.provan1.util.idGenerator;
 import com.example.provan1.dao.FornecedorDAO;
 import com.example.provan1.model.Fornecedor;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +21,42 @@ import java.util.ResourceBundle;
 
 public class FornecedorController implements Initializable {
 
-    @FXML private TextField txtRazaoSocial;
-    @FXML private TextField txtCnpj;
-    @FXML private TextField txtTelefone;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtCidade;
-    @FXML private TextField txtEstado;
+    @FXML
+    private TextField txtRazaoSocial;
+    @FXML
+    private TextField txtCnpj;
+    @FXML
+    private TextField txtTelefone;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TextField txtCidade;
+    @FXML
+    private TextField txtEstado;
     @FXML private Button btnCadastrar;
-    @FXML private Button btnFechar;
 
-    @FXML private TableView<Fornecedor> tableFornecedores;
-    @FXML private TableColumn<Fornecedor, Long> colId;
-    @FXML private TableColumn<Fornecedor, String> colRazaoSocial;
-    @FXML private TableColumn<Fornecedor, String> colCnpj;
-    @FXML private TableColumn<Fornecedor, String> colTelefone;
-    @FXML private TableColumn<Fornecedor, String> colEmail;
-    @FXML private TableColumn<Fornecedor, String> colCidade;
-    @FXML private TableColumn<Fornecedor, String> colEstado;
+    @FXML
+    private Button btnExcluir;
+
+    @FXML
+    private Button btnFechar;
+
+    @FXML
+    private TableView<Fornecedor> tableFornecedores;
+    @FXML
+    private TableColumn<Fornecedor, Long> colId;
+    @FXML
+    private TableColumn<Fornecedor, String> colRazaoSocial;
+    @FXML
+    private TableColumn<Fornecedor, String> colCnpj;
+    @FXML
+    private TableColumn<Fornecedor, String> colTelefone;
+    @FXML
+    private TableColumn<Fornecedor, String> colEmail;
+    @FXML
+    private TableColumn<Fornecedor, String> colCidade;
+    @FXML
+    private TableColumn<Fornecedor, String> colEstado;
 
     private final FornecedorDAO fornecedorDAO = new FornecedorDAO();
     private static final String CAMINHO_CSV = "src/main/java/com/example/provan1/datacsv/fornecedores.csv";
@@ -89,7 +110,7 @@ public class FornecedorController implements Initializable {
 
             exibirAlerta("Sucesso", "Fornecedor cadastrado com sucesso!");
             limparCampos();
-            configurarTabela(); // Atualiza a tabela com o novo cadastro
+            configurarTabela();
         } catch (IllegalArgumentException e) {
             exibirAlerta("Erro", e.getMessage());
         }
@@ -135,4 +156,27 @@ public class FornecedorController implements Initializable {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+    @FXML
+    private void excluirForn() {
+        Fornecedor selecionado = tableFornecedores.getSelectionModel().getSelectedItem();
+
+        if (selecionado != null) {
+            fornecedorDAO.getFornecedores().remove(selecionado);
+            salvarCSV();
+            tableFornecedores.setItems(FXCollections.observableArrayList(fornecedorDAO.getFornecedores()));
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Concluido");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Fornecedor excluido com sucesso");
+            alerta.showAndWait();
+        } else {
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("nenhum fornecedor selecionado");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Selecione um fornecedor para excluir.");
+            alerta.showAndWait();
+        }
+    }
+
+
 }

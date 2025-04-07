@@ -14,7 +14,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="426.0" prefWidth="541.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.provan1.controller.MedicamentoController">
    <children>
       <Button fx:id="btnCadastrar" layoutX="363.0" layoutY="388.0" mnemonicParsing="false" onAction="#btnCadastrarMedicamento" prefHeight="25.0" prefWidth="76.0" text="Cadastrar" />
-      <Button layoutX="455.0" layoutY="388.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Fechar" />
+      <Button fx:id="btnfechar" layoutX="455.0" layoutY="388.0" mnemonicParsing="false" onAction="#fecharjan" prefHeight="25.0" prefWidth="67.0" text="Fechar" />
       <Label layoutX="135.0" layoutY="14.0" text="Cadastro de medicamento">
          <font>
             <Font name="System Bold" size="22.0" />

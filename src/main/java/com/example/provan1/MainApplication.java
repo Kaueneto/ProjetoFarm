@@ -15,7 +15,7 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/provan1/hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 711, 489);
+        Scene scene = new Scene(fxmlLoader.load(), 762, 410);
 
         stage.setTitle("Farmácia - Controle de Medicamentos");
         stage.setScene(scene);

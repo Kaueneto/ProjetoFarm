@@ -12,7 +12,6 @@ public class CSVUtil {
         try (BufferedReader leitor = Files.newBufferedReader(Paths.get(caminhoArquivo))) {
             String linha;
             while ((linha = leitor.readLine()) != null) {
-                // Separando por ponto e vírgula
                 String[] campos = linha.split(";");
                 linhas.add(campos);
             }

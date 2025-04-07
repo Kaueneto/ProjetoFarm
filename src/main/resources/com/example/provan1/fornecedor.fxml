@@ -35,7 +35,7 @@
               <Button fx:id="btnCadastrar" layoutX="431.0" layoutY="167.0" mnemonicParsing="false" onAction="#cadastrarFornecedor" prefHeight="25.0" prefWidth="88.0" text="Cadastrar" />
          </children>
       </Pane>
-      <Button fx:id="btnLimpar1" layoutX="14.0" layoutY="461.0" mnemonicParsing="false" onAction="#limparCampos" text="Excluir fornecedor" />
+      <Button fx:id="excluirForn" layoutX="14.0" layoutY="461.0" mnemonicParsing="false" onAction="#excluirForn" text="Excluir fornecedor" />
         <Button fx:id="btnFechar" layoutX="469.0" layoutY="463.0" mnemonicParsing="false" onAction="#fecharJanela" prefHeight="25.0" prefWidth="74.0" text="Fechar" />
       <ScrollPane layoutX="15.0" layoutY="258.0" prefHeight="200.0" prefWidth="533.0">
         <content>
@@ -44,10 +44,10 @@
                   <TableView fx:id="tableFornecedores" prefHeight="200.0" prefWidth="750.0">
                     <columns>
                       <TableColumn fx:id="colId" prefWidth="75.0" text="ID" />
-                      <TableColumn fx:id="colCnpj" prefWidth="75.0" text="CNPJ" />
-                        <TableColumn fx:id="colRazaoSocial" prefWidth="75.0" text="Razao social" />
-                        <TableColumn fx:id="colTelefone" prefWidth="75.0" text="Telefone" />
-                        <TableColumn fx:id="colEmail" prefWidth="75.0" text="email" />
+                      <TableColumn fx:id="colCnpj" prefWidth="120.0" text="CNPJ" />
+                        <TableColumn fx:id="colRazaoSocial" prefWidth="150.0" text="Razao social" />
+                        <TableColumn fx:id="colTelefone" prefWidth="85.0" text="Telefone" />
+                        <TableColumn fx:id="colEmail" prefWidth="100.0" text="email" />
                         <TableColumn fx:id="colCidade" prefWidth="75.0" text="Cidade" />
                         <TableColumn fx:id="colEstado" prefWidth="75.0" text="Estado" />
                     </columns>

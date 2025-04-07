@@ -1,6 +1,7 @@
 package com.example.provan1.controller;
 
-import com.example.provan1.model.Fornecedor;
+import com.example.provan1.dao.FornecedorDAO;
+import com.example.provan1.dao.MedicamentoDAO;
 import com.example.provan1.model.Medicamento;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,50 +15,35 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-    @FXML
-    private TableColumn<Medicamento, String> colCodigo;
-    @FXML
-    private TableColumn<Medicamento, String> colNome;
-    @FXML
-    private TableColumn<Medicamento, String> colDescricao;
-    @FXML
-    private TableColumn<Medicamento, String> colPrincipio;
-    @FXML
-    private TableColumn<Medicamento, String> colValidade;
-    @FXML
-    private TableColumn<Medicamento, Integer> colEstoque;
-    @FXML
-    private TableColumn<Medicamento, String> colPreco;
-    @FXML
-    private TableColumn<Medicamento, String> colControlado;
-    @FXML
-    private TableColumn<Medicamento, String> colFornecedor;
-    @FXML
-    private TableColumn<Medicamento, String> colCnpj;
+    @FXML private TableColumn<Medicamento, String> colCodigo;
+    @FXML private TableColumn<Medicamento, String> colNome;
+    @FXML private TableColumn<Medicamento, String> colDescricao;
+    @FXML private TableColumn<Medicamento, String> colPrincipio;
+    @FXML private TableColumn<Medicamento, String> colValidade;
+    @FXML private TableColumn<Medicamento, Integer> colEstoque;
+    @FXML private TableColumn<Medicamento, String> colPreco;
+    @FXML private TableColumn<Medicamento, String> colControlado;
+    @FXML private TableColumn<Medicamento, String> colFornecedor;
+    @FXML private TableColumn<Medicamento, String> colCnpj;
 
-    @FXML
-    private MenuItem menuitemCadastrarMed;
-    @FXML
-    private MenuItem menuItemCadastrarforn;
-    @FXML
-    private TableView<Medicamento> tableMedicamentos;
-    @FXML
-    private TextField txtPesquisaCodigo;
-    @FXML
-    private Button btnExcluirSelecionado;
-    @FXML
-    private Button pesquisarmed;
+    @FXML private MenuItem menuitemCadastrarMed;
+    @FXML private MenuItem menuItemCadastrarforn;
+    @FXML private TableView<Medicamento> tableMedicamentos;
+    @FXML private TextField txtPesquisaCodigo;
+    @FXML private Button btnExcluirSelecionado;
+    @FXML private Button pesquisarmed;
+    @FXML private Button btnsair;
 
     private ObservableList<Medicamento> listaMedicamentos = FXCollections.observableArrayList();
+
+    private MedicamentoDAO medicamentoDAO = new MedicamentoDAO(new FornecedorDAO());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -73,9 +59,14 @@ public class MainController implements Initializable {
         colCnpj.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getFornecedor().getCnpj()));
 
         tableMedicamentos.setItems(listaMedicamentos);
-        carregarDadosDoCSV();
+        carregarDados();
 
         btnExcluirSelecionado.setOnAction(e -> excluirSelecionado());
+    }
+
+    private void carregarDados() {
+        listaMedicamentos.setAll(medicamentoDAO.listarTodos());
+        tableMedicamentos.setItems(listaMedicamentos);
     }
 
     @FXML
@@ -87,7 +78,7 @@ public class MainController implements Initializable {
             stage.setTitle("Cadastro de Medicamento");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Erro ao abrir a tela de cadastro de medicamento.");
         }
@@ -102,44 +93,9 @@ public class MainController implements Initializable {
             stage.setTitle("Cadastro de fornecedores");
             stage.setScene(new Scene(root));
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Erro ao abrir a tela de cadastro de fornecedores.");
-        }
-    }
-
-    private void carregarDadosDoCSV() {
-        listaMedicamentos.clear();
-
-        String caminho = Paths.get("src", "main", "java", "com", "example", "provan1", "datacsv", "medicamentos.csv").toString();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(caminho))) {
-            String linha;
-            while ((linha = reader.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
-
-                String[] partes = linha.split(";");
-                if (partes.length != 10) continue;
-
-                Fornecedor fornecedor = new Fornecedor(partes[9], partes[8]);
-
-                Medicamento m = new Medicamento(
-                        partes[0],
-                        partes[1],
-                        partes[2],
-                        partes[3],
-                        LocalDate.parse(partes[4]),
-                        Integer.parseInt(partes[5]),
-                        new BigDecimal(partes[6]),
-                        Boolean.parseBoolean(partes[7]),
-                        fornecedor
-                );
-
-                listaMedicamentos.add(m);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao ler medicamentos do arquivo CSV.");
         }
     }
 
@@ -148,11 +104,10 @@ public class MainController implements Initializable {
         String codigoBusca = txtPesquisaCodigo.getText().trim();
 
         if (codigoBusca.isEmpty()) {
-            carregarDadosDoCSV(); // Recarrega toda a lista
-            tableMedicamentos.setItems(listaMedicamentos); // Atualiza a tabela com todos os medicamentos
+            carregarDados();
         } else {
             ObservableList<Medicamento> filtrados = FXCollections.observableArrayList();
-            for (Medicamento m : listaMedicamentos) {
+            for (Medicamento m : medicamentoDAO.listarTodos()) {
                 if (m.getCodigo().equalsIgnoreCase(codigoBusca)) {
                     filtrados.add(m);
                 }
@@ -160,50 +115,26 @@ public class MainController implements Initializable {
             tableMedicamentos.setItems(filtrados);
         }
     }
-
     private void excluirSelecionado() {
         Medicamento selecionado = tableMedicamentos.getSelectionModel().getSelectedItem();
 
         if (selecionado != null) {
-            listaMedicamentos.remove(selecionado);
-            salvarListaNoCSV();
+            boolean removido = medicamentoDAO.excluir(selecionado.getCodigo());
+            if (removido) {
+                carregarDados();
 
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Sucesso");
-            alerta.setHeaderText(null);
-            alerta.setContentText("Medicamento excluído com sucesso!");
-            alerta.showAndWait();
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Sucesso");
+                alerta.setHeaderText(null);
+                alerta.setContentText("Medicamento excluído com sucesso!");
+                alerta.showAndWait();
+            }
         } else {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Nenhuma seleção");
             alerta.setHeaderText(null);
             alerta.setContentText("Selecione um medicamento para excluir.");
             alerta.showAndWait();
-        }
-    }
-
-    private void salvarListaNoCSV() {
-        String caminho = Paths.get("src", "main", "java", "com", "example", "provan1", "datacsv", "medicamentos.csv").toString();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminho))) {
-            for (Medicamento m : listaMedicamentos) {
-                writer.write(String.join(";",
-                        m.getCodigo(),
-                        m.getNome(),
-                        m.getDescricao(),
-                        m.getPrincipioAtivo(),
-                        m.getDataValidade().toString(),
-                        String.valueOf(m.getQuantidadeEstoque()),
-                        m.getPreco().toString(),
-                        String.valueOf(m.isControlado()),
-                        m.getFornecedor().getRazaoSocial(),
-                        m.getFornecedor().getCnpj()
-                ));
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao salvar medicamentos no arquivo CSV.");
         }
     }
 
@@ -216,10 +147,12 @@ public class MainController implements Initializable {
     private void abrirRelatorioEstoqueBaixo() {
         abrirRelatorioComFiltro("estoque_baixo");
     }
+
     @FXML
     private void abrirRelatorioVencendo30Dias() {
         abrirRelatorioComFiltro("vencendo_30_dias");
     }
+
     private void abrirRelatorioComFiltro(String tipoRelatorio) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/provan1/Relatorio.fxml"));
@@ -233,9 +166,14 @@ public class MainController implements Initializable {
             stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @FXML
+    private void sair() {
+        Stage stage = (Stage) btnsair.getScene().getWindow();
+        stage.close();
+    }
 }

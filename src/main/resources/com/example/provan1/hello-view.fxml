@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0" prefWidth="762.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.provan1.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="762.0" style="-fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.provan1.controller.MainController">
   <children>
       <MenuBar fx:id="Menutiem" layoutY="2.0" prefHeight="25.0" prefWidth="762.0">
         <menus>
@@ -28,7 +28,7 @@
           <Menu mnemonicParsing="false" text="Relatórios">
             <items>
               <MenuItem fx:id="menuRelatorioControlados" mnemonicParsing="false" onAction="#abrirRelatorioControlados" text="Relatorio de medicamentos controlados" />
-                  <MenuItem fx:id="menuRelatorioEstoqueBaixo" mnemonicParsing="false" onAction="#abrirRelatorioEstoqueBaixo" text="Relatorio de medicamentos com estoque baixo" />
+                  <MenuItem fx:id="menuRelatorioEstoqueBaixo" mnemonicParsing="false" onAction="#abrirRelatorioEstoqueBaixo" text="Relatorio de medicamentos com estoque baixo(abaixo de 5 UN)" />
                   <MenuItem fx:id="menuRelatorioVencimentoProximo" mnemonicParsing="false" onAction="#abrirRelatorioVencendo30Dias" text="Relatorio de medicamentos com vencimento proximo (30dias)" />
             </items>
           </Menu>
@@ -42,19 +42,20 @@
             <TableView fx:id="tableMedicamentos" layoutX="14.0" layoutY="74.0" prefHeight="228.0" prefWidth="735.0" style="-fx-background-color: #F0F8FF;">
               <columns>
                 <TableColumn fx:id="colCodigo" prefWidth="58.0" text="Codigo" />
-                <TableColumn fx:id="colNome" prefWidth="92.0" text="Nome" />
-                  <TableColumn fx:id="colDescricao" prefWidth="93.0" text="Descricao" />
-                  <TableColumn fx:id="colPrincipio" text="PrincipioAtivo" />
-                  <TableColumn fx:id="colValidade" prefWidth="52.0" text="Validade" />
+                <TableColumn fx:id="colNome" prefWidth="140.0" text="Nome" />
+                  <TableColumn fx:id="colDescricao" prefWidth="280.0" text="Descricao" />
+                  <TableColumn fx:id="colPrincipio" prefWidth="200.0" text="PrincipioAtivo" />
+                  <TableColumn fx:id="colValidade" prefWidth="85.0" text="Validade" />
                   <TableColumn fx:id="colEstoque" prefWidth="75.0" text="Estoque" />
                   <TableColumn fx:id="colPreco" prefWidth="96.0" text="Preco" />
-                  <TableColumn fx:id="colControlado" minWidth="0.0" prefWidth="34.0" text="Controlado" />
-                  <TableColumn fx:id="colCnpj" prefWidth="46.0" text="cnpj" />
+                  <TableColumn fx:id="colControlado" minWidth="85.0" prefWidth="34.0" text="Controlado" />
                   <TableColumn fx:id="colFornecedor" prefWidth="227.0" text="Razao social " />
+                  <TableColumn fx:id="colCnpj" prefWidth="100.0" text="cnpj" />
               </columns>
             </TableView>
             <Button fx:id="btnExcluirSelecionado" layoutX="14.0" layoutY="311.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="Excluir Selecionado" />
          </children>
       </Pane>
+      <Button fx:id="btnsair" layoutX="659.0" layoutY="379.0" mnemonicParsing="false" onAction="#sair" prefHeight="25.0" prefWidth="89.0" text="Sair" />
    </children>
 </AnchorPane>

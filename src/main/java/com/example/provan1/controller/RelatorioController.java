@@ -5,10 +5,12 @@ import com.example.provan1.model.Medicamento;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -36,7 +38,8 @@ public class RelatorioController {
     private TableColumn<Medicamento, String> colCnpj;
     @FXML
     private TableColumn<Medicamento, String> colFornecedor;
-
+    @FXML
+    private Button btnfecharelatorio;
 
 
 
@@ -70,8 +73,13 @@ public class RelatorioController {
         colControlado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().isControlado() ? "Sim" : "Não"));
         colPrincipio.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPrincipioAtivo()));
         colPreco.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPreco().toString()));
-        colCnpj.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFornecedor().getCnpj()));
-        colFornecedor.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFornecedor().getCnpj()));
 
+        colCnpj.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFornecedor().getCnpj()));
+        colFornecedor.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFornecedor().getRazaoSocial()));
+    }
+    @FXML
+    private void sairelatorio() {
+        Stage stage = (Stage) btnfecharelatorio.getScene().getWindow();
+        stage.close();
     }
 }
