@@ -6,23 +6,23 @@ Aplicação desenvolvida em JavaFX uqe permite o gerenciamento de medicamentos e
 
 ## Funcionalidades
 
- Cadastro de medicamentos
- Cadastro de fornecedores
- Pesquisa de medicamentos por código
+ cadastro de medicamentos
+ cadastro de fornecedores
+ pesquisa de medicamentos por código
 Exclusão de medicamentos da tabela e do arquivo CSV
 Relatórios:
   - Medicamentos controlados
   - Medicamentos com **estoque baixo (Considerado baixo menos de 5 unidades)**
   - Medicamentos **vencendo em até 30 dias**
 
-## Tecnologias utilizadas no desenvolvimento
+## tecnologias utilizadas no desenvolvimento
 
-- **Java 17+**
-- **JavaFX**
+- **java 17+**
+- **javaFX**
 - **FXML (SceneBuilder)**
-- **Java Collections / Streams**
-- **Persistência em CSV**
-- **Padrão DAO (Data Access Object) para manipulação de dados**
+- **java Collections / Streams**
+- **persistência em CSV**
+- **padrão DAO (Data Access Object) para manipulação de dados**
 
 
 
@@ -39,16 +39,17 @@ assim como o arquivo fornecedor.csv:
 id;Cnpj;razao social;num. telefone;email;cidade;estado
 ```
 
-- O botão "Excluir Selecionado" remove o medicamento da tabela e atualiza o arquivo CSV automaticamente, assim como o de excluir fornecedor.
+- o botão "Excluir Selecionado" remove o medicamento da tabela e atualiza o arquivo CSV automaticamente, assim como o de excluir fornecedor.
 
   
   ![image](https://github.com/user-attachments/assets/e67d571b-7cc1-4b7e-8224-2d2b5e73a628)
 
 
-- Relatórios são gerados em janelas separadas com base em filtros aplicados.
+- relatórios são gerados em janelas separadas com base em filtros aplicados.
 
   
 ## Interfaces de cadastro:
+
 ![image](https://github.com/user-attachments/assets/87aefe85-7a50-4638-95f3-0386b3f4c2ea)
 ![image](https://github.com/user-attachments/assets/61d2086a-a9fe-4dac-805b-dcf1276cd62f)
 
