@@ -26,17 +26,6 @@ public class RelatorioDAO {
                 .collect(Collectors.toList());
     }
 
-    public List<Medicamento> listarPorFornecedor(String razaoSocial) {
-        return medicamentoDAO.carregarMedicamentos().stream()
-                .filter(m -> m.getFornecedor().getRazaoSocial().equalsIgnoreCase(razaoSocial))
-                .collect(Collectors.toList());
-    }
-
-    public List<Medicamento> listarVencendoAte(java.time.LocalDate dataLimite) {
-        return medicamentoDAO.carregarMedicamentos().stream()
-                .filter(m -> m.getDataValidade().isBefore(dataLimite))
-                .collect(Collectors.toList());
-    }
 
 
     public List<Medicamento> listarVencendoProximos30Dias() {
